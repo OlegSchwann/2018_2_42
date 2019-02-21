@@ -1,4 +1,7 @@
-language: bash
+language: go
+
+go:
+- "1.10.x"
 
 sudo: required
 
@@ -10,7 +13,11 @@ branches:
   - dev
 
 script:
-- echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin
+- wget --no-verbose --output-document ~/'gometalinter-2.0.12-linux-amd64.tar.gz' 'https://github.com/alecthomas/gometalinter/releases/download/v2.0.12/gometalinter-2.0.12-linux-amd64.tar.gz';
+- tar --verbose --extract --file ~/'gometalinter-2.0.12-linux-amd64.tar.gz' --directory ~/;
+- export PATH="${PATH}:${HOME}/gometalinter-2.0.12-linux-amd64";
+- ~/'gometalinter-2.0.12-linux-amd64/gometalinter' --config '.gometalinter.json' --cyclo-over 24 --exclude 'easyjson.go';
+- docker login --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}";
 - docker build --tag olegschwann/authorization_server ./authorization_server/
 - docker push olegschwann/authorization_server
 - docker build --tag olegschwann/game_server ./game_server/
