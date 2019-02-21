@@ -201,6 +201,3 @@ answer
     HTTP/1.1 101 Switching Protocols
     Upgrade: websocket 
     Connection: Upgrade
-
-TODO: разобраться с JSON RPC внутри websocket соединения.
-

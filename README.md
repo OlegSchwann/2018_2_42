@@ -1,6 +1,6 @@
-# _4️⃣2️⃣_
+# RpsArena.ru
 
-<a href="https://github.com/frontend-park-mail-ru/2018_2_42">Репозиторий фронтенда.</a>  
+<a href="https://github.com/OlegSchwann/rpsarena-ru-frontend">Репозиторий фронтенда.</a>  
 <a href="https://app.swaggerhub.com/apis/RPS-Arena/authorisation-server/1.0.0">Swagger документация.</a>
 
 ## Команда

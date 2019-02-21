@@ -14,9 +14,10 @@ func (r *Room) GameMaster() {
 	log.Printf("start GameMaster for room: %#v", *r)
 	var message []byte
 	var role RoleId
-gameLoop: for {
+gameLoop:
+	for {
 		select {
-		case <- r.TimeoutTimer.C:
+		case <-r.TimeoutTimer.C:
 			r.Stop()
 			r.Remove()
 			log.Printf("room = " + r.OwnNumber.String() + ", time out!")
@@ -355,8 +356,6 @@ func (r *Room) AttemptGoToCellLogic(role RoleId, from int, to int) (gameOver boo
 		r.Gameover(0, role, from, to)
 		r.Gameover(1, role, from, to)
 		gameOver = true
-		// TODO: каскадный деструктор всего, но не раньше, чем отработают отправляющие сообщения горутины.
-		// TODO: запись в базу о конце игры.
 		return
 	}
 	// проверяем победу над обычным оружием.
@@ -368,7 +367,7 @@ func (r *Room) AttemptGoToCellLogic(role RoleId, from int, to int) (gameOver boo
 		r.Map[from] = nil
 		// ставим, что оружие победителя спалилось.
 		r.Map[to].ShowedWeapon = true
-		// меняем ход // TODO: Возможно, стоит использовать bool в качестве роли.
+		// меняем ход
 		if r.UserTurnNumber == 0 {
 			r.UserTurnNumber = 1
 		} else {

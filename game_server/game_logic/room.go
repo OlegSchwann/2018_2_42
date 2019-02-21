@@ -38,22 +38,22 @@ type Room struct {
 
 	// Каналы, c помощью которых go room.GameMaster() общается с
 	// ['go room.WebSocketReader(0)', 'go room.WebSocketWriter(0)', 'go room.WebSocketReader(1)', 'go room.WebSocketWriter(1)']
-	Messaging struct{
-		User0From             chan []byte
-		User0To               chan []byte
-		User1From             chan []byte
-		User1To               chan []byte
+	Messaging struct {
+		User0From chan []byte
+		User0To   chan []byte
+		User1From chan []byte
+		User1To   chan []byte
 	}
 
 	// Каналы для синхронизации мастера игры и читающих/пишуших в Websocket горутин при разрыве соединения.
 	Recovery struct {
 		// приход сообщения означает:
 		// go room.WebSocketReader(0) может снова заблокироваться на чтение из сокета
-		User0IsAvailableRead  chan struct{}
+		User0IsAvailableRead chan struct{}
 		// go room.WebSocketWriter(0) может снова попытаться отправить сообщение пользователю User0
 		User0IsAvailableWrite chan struct{}
 		// go room.WebSocketReader(1) может снова заблокироваться на чтение из сокета
-		User1IsAvailableRead  chan struct{}
+		User1IsAvailableRead chan struct{}
 		// go room.WebSocketWriter(1) может снова попытаться отправить сообщение пользователю User1
 		User1IsAvailableWrite chan struct{}
 	}
@@ -70,20 +70,20 @@ type Room struct {
 
 func NewRoom(player0, player1 *user_connection.UserConnection, completedRooms chan RoomId, ownNumber RoomId) (room *Room) {
 	room = &Room{
-		User0: player0,
-		User1: player1,
-		Map: [42]*Сharacter{},
-		Completed: completedRooms,
-		OwnNumber: ownNumber,
+		User0:        player0,
+		User1:        player1,
+		Map:          [42]*Сharacter{},
+		Completed:    completedRooms,
+		OwnNumber:    ownNumber,
 		TimeoutTimer: time.NewTimer(timeForMove),
 	}
-	room.Messaging.User0From            = make(chan []byte,   5)
-	room.Messaging.User0To              = make(chan []byte,   5)
-	room.Messaging.User1From            = make(chan []byte,   5)
-	room.Messaging.User1To              = make(chan []byte,   5)
-	room.Recovery.User0IsAvailableRead  = make(chan struct{}, 1)
+	room.Messaging.User0From = make(chan []byte, 5)
+	room.Messaging.User0To = make(chan []byte, 5)
+	room.Messaging.User1From = make(chan []byte, 5)
+	room.Messaging.User1To = make(chan []byte, 5)
+	room.Recovery.User0IsAvailableRead = make(chan struct{}, 1)
 	room.Recovery.User0IsAvailableWrite = make(chan struct{}, 1)
-	room.Recovery.User1IsAvailableRead  = make(chan struct{}, 1)
+	room.Recovery.User1IsAvailableRead = make(chan struct{}, 1)
 	room.Recovery.User1IsAvailableWrite = make(chan struct{}, 1)
 
 	// Внутри каждая комната обслуживается одним мастерм игры - горутиной.
@@ -183,7 +183,6 @@ func (r *Room) Reconnect(user *user_connection.UserConnection, role RoleId) {
 }
 
 func (r *Room) WebSocketReader(role RoleId) {
-	// TODO: Add correct timeout, on move and reconnect.
 	// c.conn.SetReadLimit(maxMessageSize)
 	// c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	// c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
