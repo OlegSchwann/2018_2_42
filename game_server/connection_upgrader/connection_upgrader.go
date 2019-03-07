@@ -1,11 +1,11 @@
 package connectionUpgrader
 
 import (
+	"github.com/bxcodec/faker"
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/gorilla/websocket"
 
 	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/types"
 	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/user_connection"
@@ -19,7 +19,7 @@ type ConnectionUpgrader struct {
 	QueueToGame chan *user_connection.UserConnection
 }
 
-// NewConnectionUpgrader - фабричная функция вместо конструктора.
+// Фабричная функция ConnectionUpgrader.
 func NewConnectionUpgrader() (cu *ConnectionUpgrader) {
 	cu = &ConnectionUpgrader{
 		upgrader: websocket.Upgrader{
@@ -34,7 +34,17 @@ func NewConnectionUpgrader() (cu *ConnectionUpgrader) {
 	return
 }
 
-var debug = true
+func (cu *ConnectionUpgrader) getAnonUserInfo() (login string, avatar string, err error) {
+	username := struct {
+		UserName string `faker:"username"`
+	}{}
+
+	err = faker.FakeData(&username)
+	// создаёт случайный логин
+	login = username.UserName
+	avatar = "/images/default.png"
+	return
+}
 
 // HTTPEntryPoint - входная точка для http соединения.
 // Запускается в разных горутинах, только читает из класса.
@@ -49,18 +59,11 @@ func (cu *ConnectionUpgrader) HTTPEntryPoint(w http.ResponseWriter, r *http.Requ
 			Message: "missing_sessionid_cookie",
 		}.MarshalJSON()
 		w.WriteHeader(http.StatusForbidden)
-		w.Write(response)
-		r.Body.Close()
+		_, _ = w.Write(response)
+		_ = r.Body.Close()
 		return
 	}
 
-	var avatar string
-	var login string
-	if debug {
-		// просто создаёт случайный логин
-		login = "Anon" + time.Now().Format(time.RFC3339)
-		avatar = "/images/default.png"
-	}
 	// Меняет протокол.
 	WSConnection, err := cu.upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -69,10 +72,13 @@ func (cu *ConnectionUpgrader) HTTPEntryPoint(w http.ResponseWriter, r *http.Requ
 			Message: "error on upgrade connection: " + err.Error(),
 		}.MarshalJSON()
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write(response)
-		r.Body.Close()
+		_, _ = w.Write(response)
+		_ = r.Body.Close()
 		return
 	}
+
+	login, avatar, _ := cu.getAnonUserInfo()
+
 	connection := &user_connection.UserConnection{
 		Login:      login,
 		Avatar:     avatar,

@@ -134,6 +134,27 @@ func (r *Room) UploadMap(role RoleId, message easyjson.RawMessage) (err error) {
 		err = errors.Wrap(err, "in json.Unmarshal message into types.UploadMap: ")
 		return
 	}
+
+	err = r.uploadMap(role, uploadedMap)
+	if err != nil {
+		return
+	}
+
+	if r.User0UploadedCharacters && r.User1UploadedCharacters {
+		// Отсылает карту
+		r.DownloadMap(0)
+		r.DownloadMap(1)
+		// Отсылает логин соперника
+		r.YourRival(0)
+		r.YourRival(1)
+		// Отправляет чей ход
+		r.YourTurn(0)
+		r.YourTurn(1)
+	}
+	return
+}
+
+func (r *Room) uploadMap(role RoleId, uploadedMap types.UploadMap) (err error) {
 	if role == 0 {
 		if !r.User0UploadedCharacters {
 			// uploadedMap.Weapons для клеток 13 12 11 10 9 8 7 6 5 4 3 2 1 0
@@ -194,17 +215,6 @@ func (r *Room) UploadMap(role RoleId, message easyjson.RawMessage) (err error) {
 			err = errors.New("characters already loaded")
 			return
 		}
-	}
-	if r.User0UploadedCharacters && r.User1UploadedCharacters {
-		// Отсылает карту
-		r.DownloadMap(0)
-		r.DownloadMap(1)
-		// Отсылает логин соперника
-		r.YourRival(0)
-		r.YourRival(1)
-		// Отправляет чей ход
-		r.YourTurn(0)
-		r.YourTurn(1)
 	}
 	return
 }

@@ -146,7 +146,7 @@ func (r *Room) Remove() {
 	return
 }
 
-// восстанавливает соединение и перезавускает
+// восстанавливает соединение и перезапускает
 func (r *Room) Reconnect(user *user_connection.UserConnection, role RoleId) {
 	log.Printf("Reconnect sessioni = '%s' as role %d", user.Token, role)
 
