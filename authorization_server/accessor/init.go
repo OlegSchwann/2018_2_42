@@ -3,7 +3,9 @@
 
 package accessor
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 func (db *DB) init00() (err error) {
 	//language=PostgreSQL

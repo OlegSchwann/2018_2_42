@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/go-park-mail-ru/2018_2_42/game_server/types"
-	"github.com/go-park-mail-ru/2018_2_42/game_server/user_connection"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/types"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/user_connection"
 )
 
 // ConnectionUpgrader ответственен за превращение http соединения в игрока - пользователя.

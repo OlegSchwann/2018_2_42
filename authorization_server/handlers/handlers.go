@@ -20,8 +20,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/environment"
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/types"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/environment"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/types"
 )
 
 // прикрепляем функции с логикой к глобальному окружению, обеспечивая доступ к конфигу и базе данных

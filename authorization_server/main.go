@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
+	flag "github.com/spf13/pflag" // ради gnu style: --flag='value'
 	"log"
 	"net/http"
 
-	"github.com/pkg/errors"
-	flag "github.com/spf13/pflag" // ради gnu style: --flag='value'
-
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/accessor"
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/environment"
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/handlers"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/accessor"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/environment"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/handlers"
 )
 
 func registerUsersHandlers(handlersEnv handlers.Environment) {

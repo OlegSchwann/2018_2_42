@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"strconv"
 
-	"github.com/go-park-mail-ru/2018_2_42/authorization_server/types"
+	"github.com/OlegSchwann/rpsarena-ru-backend/authorization_server/types"
 )
 
 // собственный тип, что бы прикреплять к нему функции с бизнес логикой.
@@ -55,7 +55,7 @@ func (db *DB) InitDatabase() (err error) {
 	for i, init := range initAll {
 		err = init()
 		if err != nil {
-			err = errors.Wrap(err, "during preparing function 'accessor.init" + strconv.Itoa(i) + "': ")
+			err = errors.Wrap(err, "during preparing function 'accessor.init"+strconv.Itoa(i)+"': ")
 			break
 		}
 	}

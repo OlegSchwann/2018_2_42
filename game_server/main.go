@@ -1,15 +1,14 @@
 package main
 
 import (
+	flag "github.com/spf13/pflag" // ради gnu style: --flag='value'
 	"log"
 	"net/http"
 	"strconv"
 
-	flag "github.com/spf13/pflag" // ради gnu style: --flag='value'
-
-	"github.com/go-park-mail-ru/2018_2_42/game_server/connection_upgrader"
-	"github.com/go-park-mail-ru/2018_2_42/game_server/game_logic"
-	"github.com/go-park-mail-ru/2018_2_42/game_server/websocket_test_page"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/connection_upgrader"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/game_logic"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/websocket_test_page"
 )
 
 func main() {

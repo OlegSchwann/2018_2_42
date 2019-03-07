@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/go-park-mail-ru/2018_2_42/game_server/user_connection"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/user_connection"
 )
 
 const timeForMove = 5 * time.Minute

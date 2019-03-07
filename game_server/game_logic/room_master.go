@@ -7,7 +7,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"strconv"
 
-	"github.com/go-park-mail-ru/2018_2_42/game_server/types"
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/types"
 )
 
 func (r *Room) GameMaster() {

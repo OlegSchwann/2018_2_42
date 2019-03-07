@@ -3,9 +3,10 @@ package game_logic
 import (
 	"errors"
 	"fmt"
-	"github.com/go-park-mail-ru/2018_2_42/game_server/user_connection"
 	"log"
 	"strconv"
+
+	"github.com/OlegSchwann/rpsarena-ru-backend/game_server/user_connection"
 )
 
 // адрес игровой комнаты, уникальный для данного сервера.

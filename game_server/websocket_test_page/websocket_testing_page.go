@@ -1,6 +1,8 @@
 package websocket_test_page
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func WebSocketTestPage(w http.ResponseWriter, r *http.Request) {
 	// language=HTML // Enable "IntelliLang" plugin if syntax highlighting did not work.

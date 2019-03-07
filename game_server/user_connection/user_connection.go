@@ -1,6 +1,8 @@
 package user_connection
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/gorilla/websocket"
+)
 
 // Соединение пользователя, заведомо валидное, за производство отвечает connection_upgrader.
 type UserConnection struct {
